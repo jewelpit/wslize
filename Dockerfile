@@ -2,9 +2,7 @@ FROM fedora:latest
 
 # Add man pages first so we have to reinstall the fewest packages.
 RUN dnf install -y man man-pages
-RUN for pkg in $(dnf repoquery --installed --qf "%{name}"); do \
-    dnf reinstall -qy $pkg; \
-    done
+RUN dnf reinstall -qy $(dnf repoquery --installed --qf "%{name}")
 
 RUN dnf upgrade -y && dnf install -y \
     cracklib-dicts \
