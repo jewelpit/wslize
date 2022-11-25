@@ -3,6 +3,9 @@ Param(
     [String] $Name,
 
     [Parameter(Mandatory = $True)]
+    [String] $Username,
+
+    [Parameter(Mandatory = $True)]
     [String] $DistroInstallDir
 )
 
@@ -20,7 +23,7 @@ CALLSTACK:$(Get-PSCallStack | Out-String)
 }
 
 $ContainerName = "docker_to_wsl_$Name"
-docker build -t $ContainerName --progress plain .; CheckLastExitCode
+docker build -t $ContainerName --build-arg USERNAME="$Username" --progress plain .; CheckLastExitCode
 
 try {
     docker run -it --name "$ContainerName" "$ContainerName"; CheckLastExitCode

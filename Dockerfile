@@ -1,25 +1,14 @@
-FROM fedora:latest
+FROM registry.fedoraproject.org/fedora-toolbox:37
 
-# Add man pages first so we have to reinstall the fewest packages.
-RUN dnf install -y man man-pages
-RUN dnf reinstall -qy $(dnf repoquery --installed --qf "%{name}")
-
-RUN dnf upgrade -y && dnf install -y \
-    cracklib-dicts \
-    findutils \
-    iproute \
-    iputils \
-    man \
-    man-pages \
-    ncurses \
-    passwd \
-    procps-ng \
-    rsync \
-    util-linux \
-    vim
+RUN dnf upgrade -y && dnf install -y neofetch
 RUN dnf clean all
 
-RUN useradd -G wheel julia
-RUN printf "\n[user]\ndefault = julia\n" | sudo tee -a /etc/wsl.conf
+# Save this so we can use it in CMD below.
+ARG USERNAME
+ENV USERNAME="${USERNAME}"
+RUN test -n "${USERNAME}"
 
-ENTRYPOINT passwd julia
+RUN useradd -G wheel ${USERNAME}
+RUN printf "\n[user]\ndefault = ${USERNAME}\n" | sudo tee -a /etc/wsl.conf
+
+CMD neofetch && passwd ${USERNAME}
