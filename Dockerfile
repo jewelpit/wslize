@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-toolbox:37
+FROM registry.fedoraproject.org/fedora-toolbox:testing
 
 RUN dnf upgrade -y && dnf install -y neofetch
 RUN dnf clean all
