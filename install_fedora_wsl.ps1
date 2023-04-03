@@ -28,6 +28,7 @@ docker build -t $ContainerName --build-arg USERNAME="$Username" --progress plain
 try {
     docker run -it --name "$ContainerName" "$ContainerName"; CheckLastExitCode
     $TarFile = Join-Path $DistroInstallDir "wsl_distro.tar"
+    mkdir -Force $DistroInstallDir
     docker export -o "$TarFile" "$ContainerName"; CheckLastExitCode
 }
 finally {
