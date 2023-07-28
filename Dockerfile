@@ -1,4 +1,4 @@
-FROM registry.fedoraproject.org/fedora-toolbox:testing
+FROM registry.fedoraproject.org/fedora-toolbox:rawhide
 
 RUN dnf upgrade -y && dnf install -y neofetch
 RUN dnf clean all
